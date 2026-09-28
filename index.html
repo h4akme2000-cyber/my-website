@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মাই ওয়েবসাইট</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #f4f4f9;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
 
+    <div class="card">
+        <h2>ওয়েবসাইটে স্বাগতম!</h2>
+        <p>নিচের বাটনে চাপ দিয়ে আপনার লোকেশন চেক করুন:</p>
+        
+        <button onclick="getLocation()">আমার লোকেশন দেখুন</button>
+        
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function getLocation() {
+            const status = document.getElementById('status');
+
+            if (navigator.geolocation) {
+                status.innerText = "লোকেশন খোঁজা হচ্ছে...";
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                status.innerText = "আপনার ব্রাউজারে Geolocation সাপোর্ট করে না।";
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            status.innerHTML = 
+                `<p><strong>Latitude:</strong> ${lat}</p>` +
+                `<p><strong>Longitude:</strong> ${lon}</p>` +
+                `<p><a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank" style="color: #28a745; font-weight: bold;">গুগল ম্যাপে দেখুন</a></p>`;
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("আপনি লোকেশন পারমিশন দেননি।");
+                    break;
+                default:
+                    alert("লোকেশন পাওয়া যায়নি।");
+            }
+        }
+    </script>
+
+</body>
+</html>
